@@ -3,6 +3,9 @@ name: Send Terraform tfstate to Azure
 on:
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
 jobs:
   send-tfstate-to-az:
     runs-on: ubuntu-latest

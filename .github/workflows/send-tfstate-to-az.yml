@@ -1,11 +1,13 @@
-name: Send Terraform tfstate to Azure
+name: Send Terraform state to Azure
 
 on:
   workflow_dispatch:
 
+# Allows GitHub to request the token that Azure needs
 permissions:
   id-token: write
   contents: read
+
 jobs:
   send-tfstate-to-az:
     runs-on: ubuntu-latest
@@ -24,3 +26,25 @@ jobs:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Initialize Terraform
+        id: terraform-init
+        run: |
+          terraform init
+
+      - name: Generate Terraform plan
+        id: terraform-plan
+        run: |
+          terraform plan -out=tfplan
+          echo "tfplan_file=tfplan" >> "$GITHUB_OUTPUT"
+
+      - name: Upload Terraform plan 
+        uses: actions/upload-artifact@v7
+        with:
+          path: ${{ steps.terraform-plan.outputs.tfplan_file }}
+          archive: false
+
+      - name: Apply Terraform plan
+        id: terraform-apply
+        run: |
+          terraform apply -auto-approve ${{ steps.terraform-plan.outputs.tfplan_file }}

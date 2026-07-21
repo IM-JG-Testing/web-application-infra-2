@@ -39,15 +39,10 @@ jobs:
           echo "tfplan_file=tfplan" >> "$GITHUB_OUTPUT"
 
       - name: Publish Terraform plan to step summary
-        if: always()
         run: |
-          terraform show -no-color ${{ steps.terraform-plan.outputs.tfplan_file }} >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Upload Terraform plan 
-        uses: actions/upload-artifact@v7
-        with:
-          path: ${{ steps.terraform-plan.outputs.tfplan_file }}
-          archive: false
+          echo '```hcl' >> "$GITHUB_STEP_SUMMARY"
+          terraform show ${{ steps.terraform-plan.outputs.tfplan_file }} >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Apply Terraform plan
         id: terraform-apply

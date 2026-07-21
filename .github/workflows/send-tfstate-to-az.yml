@@ -41,7 +41,7 @@ jobs:
       - name: Publish Terraform plan to step summary
         run: |
           echo '```hcl' >> "$GITHUB_STEP_SUMMARY"
-          terraform show ${{ steps.terraform-plan.outputs.tfplan_file }} >> "$GITHUB_STEP_SUMMARY"
+          terraform show -no-color ${{ steps.terraform-plan.outputs.tfplan_file }} >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Apply Terraform plan

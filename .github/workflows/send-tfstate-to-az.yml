@@ -28,7 +28,7 @@ jobs:
         id: fetch-iac-modules-app-pk
         run: |
           KEY=$(az keyvault secret show --name "iac-modules-app" --vault-name "KV-Canary-jgionet" --query "value" -o tsv)
-          echo "::add-mask::$KEY"
+          # echo "::add-mask::$KEY"
           {
             echo 'private_key<<EOF'
             echo "$KEY"

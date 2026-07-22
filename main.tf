@@ -29,6 +29,10 @@ resource "null_resource" "backend_test" {
   }
 }
 
+module "external_module" {
+  source = "git::https://github.com/IM-JG-Testing/iac-modules.git//modules/my-module-1?ref=main"
+}
+
 output "backend_status" {
   value       = "Success! The backend configuration is active and working."
   description = "A simple string confirmation to prove execution completed."

@@ -24,6 +24,29 @@ jobs:
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
+      - name: Fetch IaC modules GH app private key
+        uses: azure/cli@v2
+        id: fetch-iac-modules-app-pk
+        with:
+          inlineScript: |
+            KEY=$(az keyvault secret show --name "iac-modules-app" --vault-name "KV-Canary-jgionet" --query "value" -o tsv)
+            echo "::add-mask::$KEY"
+            {
+              echo 'private_key<<EOF'
+              echo "$KEY"
+              echo 'EOF'
+            } >> "$GITHUB_OUTPUT"
+
+      - name: Create IaC modules GH app token
+        uses: actions/create-github-app-token@v3
+        id: iac-modules-app-token
+        with:
+          client-id: ${{ vars.IAC_MODULES_CLIENT_ID }}
+          private-key: ${{ steps.fetch-iac-modules-app-pk.outputs.private_key }}
+
+      - name: Configure Git to access private IaC modules
+        run: git config --global url."https://x-access-token:${{ steps.iac-modules-app-token.outputs.token }}@github.com".insteadOf "https://github.com/"
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v4
       

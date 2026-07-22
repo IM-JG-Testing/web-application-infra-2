@@ -6,7 +6,6 @@ terraform {
     container_name       = "s-terraform-im-jg-testing-web-application-infra-2-dev"
     key                  = "web-application-infra-2.tfstate"
     use_azuread_auth     = true
-    use_oidc             = true
   }
 }
 

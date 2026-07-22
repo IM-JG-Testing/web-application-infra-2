@@ -17,6 +17,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v4
+
       - name: Azure login
         uses: azure/login@v3
         with:
@@ -44,9 +47,6 @@ jobs:
 
       - name: Configure Git to access private IaC modules
         run: git config --global url."https://x-access-token:${{ steps.iac-modules-app-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
-
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v4
       
       - name: Initialize Terraform
         id: terraform-init

@@ -12,14 +12,9 @@ terraform {
     storage_account_name = "stjgdevequipeinterne"
     container_name       = "s-terraform-im-jg-testing-web-application-infra-2-dev"
     key                  = "web-application-infra-2.tfstate"
-    use_azuread_auth = true
-    use_oidc = true
+    use_azuread_auth     = true
+    use_oidc             = true
   }
-}
-
-provider "azurerm" {
-  features {}
-  use_oidc = true # Matches the backend authentication
 }
 
 # An in-memory null resource that does not create physical infrastructure

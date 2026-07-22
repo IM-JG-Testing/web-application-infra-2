@@ -31,7 +31,11 @@ jobs:
         id: fetch-iac-modules-app-pk
         run: |
           KEY=$(az keyvault secret show --name "iac-modules-app" --vault-name "KV-Canary-jgionet" --query "value" -o tsv)
-          # echo "::add-mask::$KEY"
+          while IFS= read -r line; do
+            if [ -n "$line" ]; then
+              echo "::add-mask::$line"
+            fi
+          done <<< "$KEY"
           {
             echo 'private_key<<EOF'
             echo "$KEY"

@@ -44,17 +44,11 @@ jobs:
         with:
           client-id: ${{ vars.IAC_MODULES_CLIENT_ID }}
           private-key: ${{ steps.fetch-iac-modules-app-pk.outputs.private_key }}
-          owner: "IM-JG-Testing"
           repositories: |
-            web-application-infra-2
             iac-modules
 
       - name: Configure Git to access private IaC modules
         run: git config --global url."https://x-access-token:${{ steps.iac-modules-app-token.outputs.token }}@github.com/".insteadOf "https://github.com/"
-      
-      - name: Test Git Clone
-        run: |
-          git clone https://x-access-token:${{ steps.iac-modules-app-token.outputs.token }}@github.com/IM-JG-Testing/iac-modules.git test-clone
 
       - name: Initialize Terraform
         id: terraform-init

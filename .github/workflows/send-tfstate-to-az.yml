@@ -25,17 +25,15 @@ jobs:
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Fetch IaC modules GH app private key
-        uses: azure/cli@v2
         id: fetch-iac-modules-app-pk
-        with:
-          inlineScript: |
-            KEY=$(az keyvault secret show --name "iac-modules-app" --vault-name "KV-Canary-jgionet" --query "value" -o tsv)
-            # echo "::add-mask::$KEY"
-            {
-              echo 'private_key<<EOF'
-              echo "$KEY"
-              echo 'EOF'
-            } >> "$GITHUB_OUTPUT"
+        run: |
+          KEY=$(az keyvault secret show --name "iac-modules-app" --vault-name "KV-Canary-jgionet" --query "value" -o tsv)
+          echo "::add-mask::$KEY"
+          {
+            echo 'private_key<<EOF'
+            echo "$KEY"
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
 
       - name: Create IaC modules GH app token
         uses: actions/create-github-app-token@v3

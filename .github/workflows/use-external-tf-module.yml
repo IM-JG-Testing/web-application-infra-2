@@ -1,4 +1,4 @@
-name: Send Terraform state to Azure
+name: Use external Terraform module
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 jobs:
-  send-tfstate-to-az:
+  use-external-module:
     runs-on: ubuntu-latest
     environment: dev
 
@@ -23,7 +23,6 @@ jobs:
       - name: Azure login
         uses: azure/login@v3
         with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 

@@ -3,7 +3,7 @@ name: Use external Terraform module
 on:
   workflow_dispatch:
 
-# Allows GitHub to request the token that Azure needs
+jobs:# Allows GitHub to request the token that Azure needs
 permissions:
   id-token: write
   contents: read
@@ -22,9 +22,10 @@ jobs:
 
       - name: Azure login
         uses: azure/login@v3
-        with:
+        with: 
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          auth-type: IDENTITY
 
       - name: Fetch IaC modules GH app private key
         id: fetch-iac-modules-app-pk

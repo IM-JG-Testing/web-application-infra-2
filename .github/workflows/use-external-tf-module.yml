@@ -25,7 +25,7 @@ jobs:
         with: 
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-          auth-type: IDENTITY
+          auth-type: "IDENTITY"
 
       - name: Fetch IaC modules GH app private key
         id: fetch-iac-modules-app-pk

@@ -1,0 +1,16 @@
+name: Use external Terraform module
+
+on:
+  workflow_dispatch:
+
+jobs:
+  filler-job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: print Hello World!
+        run: |
+          echo "Hello World!"
